@@ -20,7 +20,7 @@ bundle install
 read -p "Press the button on your hue light bridge and then press enter"
 
 # Create our API user and print out the group numbers
-ruby lib/hue.rb
+ruby lib/hue.rb groups
 
 echo ""
 echo "Please update config.yaml with the proper group number for your lights, the proper twitch username and oauth password, and your personal channel name."

@@ -10,7 +10,7 @@ class Twitch
   match /#([0-9a-fA-F]{6})/, use_prefix: false, method: :lights
 
   def lights(m, color)
-    if m.tags["bits"].to_i >= $config["cheer_floor"].to_i
+    if m.tags["bits"].to_i >= $config["bot"]["cheer_floor"].to_i
       temp_color = "#" + color.to_s
       rgb = Color::RGB.by_hex temp_color
       rgbxyz = rgb.to_xyz

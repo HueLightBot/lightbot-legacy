@@ -6,8 +6,6 @@ end
 def mod?(m)
   if m.tags["mod"].to_i == 1
     return true
-  elsif m.user.name == $brain.users[0]["nick"]
-    return true
   else
     if chan_to_user(m) == m.user.nick
       return true

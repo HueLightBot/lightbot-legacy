@@ -1,0 +1,9 @@
+---
+bot:
+  nick: huelightbot
+  password: oauth_password_here
+  port: 6667
+  server: irc.chat.twitch.tv
+  cheer_floor: 200
+  hue_group: 4
+  channel: '#your_twitch_username'

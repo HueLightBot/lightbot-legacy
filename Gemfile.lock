@@ -1,0 +1,44 @@
+GIT
+  remote: https://github.com/aetaric/cinch
+  revision: 6282af55dee2913f06c0b0b1e2cd7d3847767a5f
+  specs:
+    cinch (2.3.1)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activesupport (5.0.2)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (~> 0.7)
+      minitest (~> 5.1)
+      tzinfo (~> 1.1)
+    color (1.8)
+    concurrent-ruby (1.0.5)
+    curb (0.9.3)
+    eventmachine (1.2.3)
+    hue (0.2.0)
+      curb
+      json
+      log_switch (= 0.4.0)
+      thor
+    i18n (0.8.1)
+    json (2.1.0)
+    log_switch (0.4.0)
+    minitest (5.10.1)
+    thor (0.19.4)
+    thread_safe (0.3.6)
+    tzinfo (1.2.3)
+      thread_safe (~> 0.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  activesupport
+  cinch!
+  color
+  eventmachine
+  hue
+
+BUNDLED WITH
+   1.14.6

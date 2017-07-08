@@ -53,6 +53,7 @@ class Twitch
   def subs(m)
     if m.tags["msg-id"] == "resub"
       if /#([0-9a-fA-F]{6})/.match(m.message)
+        color = /#([0-9a-fA-F]{6})/.match(m.message)
         temp_color = "#" + color.to_s
         rgb = Color::RGB.by_hex temp_color
         rgbxyz = rgb.to_xyz

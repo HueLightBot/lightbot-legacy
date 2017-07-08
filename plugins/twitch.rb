@@ -1,8 +1,5 @@
 require 'cinch'
 require 'active_support'
-require 'json'
-require 'net/http'
-require 'uri'
 require 'hue'
 require 'color'
 

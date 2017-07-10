@@ -47,15 +47,14 @@ class Twitch
       end
 
       m.reply "@#{m.user}, I've set the hue light color to ##{color}"
-    end    
+    end
   end
 
   def subs(m)
     if m.tags["msg-id"] == "resub"
       if /#([0-9a-fA-F]{6})/.match(m.message)
-        color = /#([0-9a-fA-F]{6})/.match(m.message)
-        temp_color = "#" + color.to_s
-        rgb = Color::RGB.by_hex temp_color
+        color = /#([0-9a-fA-F]{6})/.match(m.message)[0]
+        rgb = Color::RGB.by_hex color
         rgbxyz = rgb.to_xyz
         totals = rgbxyz[:x] + rgbxyz[:y] + rgbxyz[:z]
         @x = rgbxyz[:x] / totals

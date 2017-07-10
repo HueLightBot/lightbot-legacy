@@ -11,6 +11,8 @@ class Twitch
 
   match /#([0-9a-fA-F]{6})/, use_prefix: false, method: :lights
   match /setlights #([0-9a-fA-F]{6})/, method: :mod_color
+  match /off/, method: :off
+  match /on/, method: :on
 
   def lights(m, color)
     if m.tags["bits"].to_i >= $config["bot"]["cheer_floor"].to_i
@@ -47,6 +49,22 @@ class Twitch
       end
 
       m.reply "@#{m.user}, I've set the hue light color to ##{color}"
+    end
+  end
+
+  def off(m)
+    if m.tags["bits"].to_i >= $config["bot"]["off_floor"].to_i
+      $hue_client.group($config["bot"]["hue_group"]).lights.each do |light|
+        light.off!
+      end
+    end
+  end
+
+  def on(m)
+    if m.tags["bits"].to_i >= $config["bot"]["on_floor"].to_i
+      $hue_client.group($config["bot"]["hue_group"]).lights.each do |light|
+        light.on!
+      end
     end
   end
 

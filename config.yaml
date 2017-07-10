@@ -7,3 +7,5 @@ bot:
   cheer_floor: 200
   hue_group: 4
   channel: '#your_twitch_username'
+  off_floor: 5000
+  on_floor: 500

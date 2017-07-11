@@ -9,5 +9,7 @@ Long term solution will be to use setup.sh to build out a working ruby env in Ba
 
 ## Commands:
 `cheer200 #FF0000` - Changes the color of the hue lights to #FF0000. This supports all cheermotes as well. You can use a resub or sub message to change the color as well.
+
 `!off cheer5000`   - Turns the lights off.
+
 `!on cheer500`     - Turns the lights on.

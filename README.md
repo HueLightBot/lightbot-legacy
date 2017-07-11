@@ -9,7 +9,7 @@ Long term solution will be to use setup.sh to build out a working ruby env in Ba
 
 Because of odd behavior in bundler, it doesn't like pulling the cinch library from my twitch-ready version at https://github.com/aetaric/cinch . I have provided a copy in the repo, but you can build it on your own using `gem build cinch.gemspec` in a local copy of the cinch source.
 
-You'll need to auth the bot to work with your hue lights. Make sure to press your hue bridge's button 30 seconds before you run `ruby lib/hue.rb`. This will output the group IDs for your hue setup. Put the ID number for the group of lights you want to control in the config as `hue_group: x` where x is the ID.
+You'll need to auth the bot to work with your hue lights. Make sure to press your hue bridge's button less than 30 seconds before you run `ruby lib/hue.rb`. This will output the group IDs for your hue setup. Put the ID number for the group of lights you want to control in the config as `hue_group: x` where x is the ID.
 
 ## Commands:
 `cheer200 #FF0000` - Changes the color of the hue lights to #FF0000. This supports all cheermotes as well. You can use a resub or sub message to change the color as well.

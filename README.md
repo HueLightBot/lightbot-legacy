@@ -34,4 +34,4 @@ bot:
   hue_group: 4
   channel: '#geoff'
   off_floor: 500
-  on_floor: 100```
+  on_floor: 100

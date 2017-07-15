@@ -11,6 +11,7 @@ class Twitch
 
   match /#([0-9a-fA-F]{6})/, use_prefix: false, method: :lights
   match /setlights #([0-9a-fA-F]{6})/, method: :mod_color
+  match /dim (\d\.\d)/, method: :dim
   match /off/, method: :off
   match /on/, method: :on
 
@@ -20,6 +21,16 @@ class Twitch
       $lightbot_logger.info "Cheer is higher than configured cheer floor. Setting color."
       temp_color = "#" + color.to_s
       set_color m, temp_color
+    end
+  end
+
+  def dim(m, brightness)
+    $lightbot_logger.info "Detected dim command"
+    if m.tags["bits"].to_i >= $config["bot"]["dim_floor"].to_i
+      $lightbot_logger.info "Cheer is higher than configured dimming floor. Setting Brightness."
+      $hue_client.group($config["bot"]["hue_group"]).lights.each do |light|
+        light.brightness = brightness
+      end
     end
   end
 

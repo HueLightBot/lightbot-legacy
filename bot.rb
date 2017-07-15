@@ -23,6 +23,7 @@ require 'logger'
 
 # start up logger
 $lightbot_logger = Logger.new('lightbot.log')
+$lightbot_logger.info "New log"
 
 # load custom cinch plugins
 Dir["./plugins/*.rb"].each {|file| load file}

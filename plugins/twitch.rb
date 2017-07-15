@@ -66,6 +66,11 @@ class Twitch
       light.brightness = @bri
     end
 
+    file = File.open "current_color.txt", 'w'
+    file.puts color
+    file.flush
+    file.close
+
     m.reply "@#{m.user}, I've set the hue light color to ##{color}"
   end
 end

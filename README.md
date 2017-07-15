@@ -12,11 +12,13 @@ Because of odd behavior in bundler, it doesn't like pulling the cinch library fr
 You'll need to auth the bot to work with your hue lights. Make sure to press your hue bridge's button less than 30 seconds before you run `ruby lib/hue.rb`. This will output the group IDs for your hue setup. Put the ID number for the group of lights you want to control in the config as `hue_group: x` where x is the ID.
 
 ## Commands:
-`cheer200 #FF0000` - Changes the color of the hue lights to #FF0000. This supports all cheermotes as well. You can use a resub or sub message to change the color as well.
+`cheer200 #FF0000`   - Changes the color of the hue lights to #FF0000. This supports all cheermotes as well. You can use a resub or sub message to change the color as well.
 
-`!off cheer5000`   - Turns the lights off.
+`!off cheer5000`     - Turns the lights off.
 
-`!on cheer500`     - Turns the lights on.
+`!on cheer500`       - Turns the lights on.
+
+`!setlights #FF0000` - Forcefully sets the lights to a color. This can only be used by the broadcaster or channel mods.
 
 ## Config example:
 This is a config example... Values aren't for use in production.
@@ -32,4 +34,4 @@ bot:
   hue_group: 4
   channel: '#geoff'
   off_floor: 500
-  on_floor: 100```
+  on_floor: 100

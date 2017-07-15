@@ -83,6 +83,6 @@ class Twitch
     file.flush
     file.close
 
-    m.reply "@#{m.user}, I've set the hue light color to ##{color}"
+    m.reply "@#{m.user}, I've set the hue light color to #{color}"
   end
 end

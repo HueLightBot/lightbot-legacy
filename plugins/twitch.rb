@@ -14,6 +14,7 @@ class Twitch
   match /dim (\d\.\d)/, method: :dim
   match /off/, method: :off
   match /on/, method: :on
+  match /colorloop/, method: :colorloop
 
   def lights(m, color)
     $lightbot_logger.info "Detected RGB hex color #{color}"
@@ -54,6 +55,21 @@ class Twitch
       $lightbot_logger.info "Lights are being set to #{color} by command!"
       temp_color = "#" + color.to_s
       set_color m, temp_color
+    end
+  end
+
+  def colorloop(m)
+    $lightbot_logger.info "Detected !colorloop command!"
+    if mod?(m)
+      group.lights.each do |light|
+          light.effect="colorloop"
+        end
+
+        sleep 10
+
+        group.lights.each do |light|
+          light.effect="none"
+        end
     end
   end
 

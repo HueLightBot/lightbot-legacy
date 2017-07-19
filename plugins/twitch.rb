@@ -18,6 +18,20 @@ class Twitch
   def lights(m, color)
     $lightbot_logger.info "Detected RGB hex color #{color}"
     if m.tags["bits"].to_i >= $config["bot"]["cheer_floor"].to_i
+
+       if m.tags["bits"].to_i >= 1000
+        $lightbot_logger.info "Sub is a $24.99 sub! Triggering color loop for 10 seconds!"
+        group.lights.each do |light|
+          light.effect="colorloop"
+        end
+
+        sleep 10
+
+        group.lights.each do |light|
+          light.effect="none"
+        end
+      end
+
       $lightbot_logger.info "Cheer is higher than configured cheer floor. Setting color."
       temp_color = "#" + color.to_s
       set_color m, temp_color

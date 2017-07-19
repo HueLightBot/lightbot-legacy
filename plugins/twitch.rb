@@ -80,7 +80,7 @@ class Twitch
   def subs(m)
     if m.tags["msg-id"] == "resub" || m.tags["msg-id"] == "sub"
       $lightbot_logger.info "Sub/resub!"
-      if m.tags["msg-param-sub-plan"].to_s == "3000".to_s
+      if m.tags["msg-param-sub-plan"].to_s == "3000".to_s || m.tags["msg-param-sub-plan"].to_s == "2000".to_s
         $lightbot_logger.info "Sub is a $24.99 sub! Triggering color loop for 10 seconds!"
         group.lights.each do |light|
           light.effect="colorloop"

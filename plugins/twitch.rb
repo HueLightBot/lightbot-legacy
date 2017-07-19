@@ -64,8 +64,21 @@ class Twitch
   end
 
   def subs(m)
-    if m.tags["msg-id"] == "resub"
+    if m.tags["msg-id"] == "resub" || m.tags["msg-id"] == "sub"
       $lightbot_logger.info "Sub/resub!"
+      if m.tags["msg-param-sub-plan"].to_s == "3000".to_s
+        $lightbot_logger.info "Sub is a $24.99 sub! Triggering color loop for 10 seconds!"
+        group.lights.each do |light|
+          light.effect="colorloop"
+        end
+
+        sleep 10
+
+        group.lights.each do |light|
+          light.effect="none"
+        end
+      end
+
       if /#([0-9a-fA-F]{6})/.match(m.message)
         color = /#([0-9a-fA-F]{6})/.match(m.message)[0]
         $lightbot_logger.info "Resub message includes RGB hex code. Setting lights to color #{color}"

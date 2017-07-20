@@ -26,7 +26,7 @@ class Twitch
           light.effect="colorloop"
         end
 
-        sleep 10
+        sleep 30
 
         $hue_client.group($config["bot"]["hue_group"]).lights.each do |light|
           light.effect="none"
@@ -65,7 +65,7 @@ class Twitch
         light.effect="colorloop"
       end
 
-      sleep 10
+      sleep 30
 
       $hue_client.group($config["bot"]["hue_group"]).lights.each do |light|
         light.effect="none"
@@ -98,13 +98,13 @@ class Twitch
       $lightbot_logger.info "Sub/resub!"
       if m.tags["msg-param-sub-plan"].to_s == "3000".to_s || m.tags["msg-param-sub-plan"].to_s == "2000".to_s
         $lightbot_logger.info "Sub is a $24.99 sub! Triggering color loop for 10 seconds!"
-        group.lights.each do |light|
+        $hue_client.group($config["bot"]["hue_group"]).lights.each do |light|
           light.effect="colorloop"
         end
 
-        sleep 10
+        sleep 30
 
-        group.lights.each do |light|
+        $hue_client.group($config["bot"]["hue_group"]).lights.each do |light|
           light.effect="none"
         end
       end

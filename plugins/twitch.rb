@@ -21,14 +21,14 @@ class Twitch
     if m.tags["bits"].to_i >= $config["bot"]["cheer_floor"].to_i
 
        if m.tags["bits"].to_i >= 1000
-        $lightbot_logger.info "Sub is a $24.99 sub! Triggering color loop for 10 seconds!"
-        group.lights.each do |light|
+        $lightbot_logger.info "More than 1k bits! Triggering color loop for 10 seconds!"
+        $hue_client.group($config["bot"]["hue_group"]).lights.each do |light|
           light.effect="colorloop"
         end
 
         sleep 10
 
-        group.lights.each do |light|
+        $hue_client.group($config["bot"]["hue_group"]).lights.each do |light|
           light.effect="none"
         end
       end
@@ -61,15 +61,15 @@ class Twitch
   def colorloop(m)
     $lightbot_logger.info "Detected !colorloop command!"
     if mod?(m)
-      group.lights.each do |light|
-          light.effect="colorloop"
-        end
+      $hue_client.group($config["bot"]["hue_group"]).lights.each do |light|
+        light.effect="colorloop"
+      end
 
-        sleep 10
+      sleep 10
 
-        group.lights.each do |light|
-          light.effect="none"
-        end
+      $hue_client.group($config["bot"]["hue_group"]).lights.each do |light|
+        light.effect="none"
+      end
     end
   end
 

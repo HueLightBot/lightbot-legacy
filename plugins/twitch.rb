@@ -8,8 +8,9 @@ class Twitch
   include ActiveSupport::Inflector
 
   listen_to :usernotice, :method => :subs
+  listen_to :channel, :method => :lights
 
-  match /#([0-9a-fA-F]{6})/, use_prefix: false, method: :lights
+  #match /#([0-9a-fA-F]{6})/, use_prefix: false, method: :lights
   match /setlights #([0-9a-fA-F]{6})/, method: :mod_color
   match /dim (\d\.\d)/, method: :dim
   match /off/, method: :off
@@ -17,25 +18,26 @@ class Twitch
   match /colorloop/, method: :colorloop
 
   def lights(m, color)
-    $lightbot_logger.info "Detected RGB hex color #{color}"
-    if m.tags["bits"].to_i >= $config["bot"]["cheer_floor"].to_i
-
-       if m.tags["bits"].to_i >= 1000
-        $lightbot_logger.info "More than 1k bits! Triggering color loop for 10 seconds!"
-        $hue_client.group($config["bot"]["hue_group"]).lights.each do |light|
-          light.effect="colorloop"
-        end
-
-        sleep 30
-
-        $hue_client.group($config["bot"]["hue_group"]).lights.each do |light|
-          light.effect="none"
-        end
+    if m.tags["bits"].to_i > 999
+      $lightbot_logger.info "More than 0k bits! Triggering color loop for 30 seconds!"
+      $hue_client.group($config["bot"]["hue_group"]).lights.each do |light|
+        light.effect="colorloop"
       end
 
+      sleep 30
+
+      $hue_client.group($config["bot"]["hue_group"]).lights.each do |light|
+        light.effect="none"
+      end
+    end
+
+    if m.tags["bits"].to_i >= $config["bot"]["cheer_floor"].to_i
       $lightbot_logger.info "Cheer is higher than configured cheer floor. Setting color."
-      temp_color = "#" + color.to_s
-      set_color m, temp_color
+      if /#([0-9a-fA-F]{6})/.match(m.message)
+        color = /#([0-9a-fA-F]{6})/.match(m.message)[0]
+        $lightbot_logger.info "Message includes RGB hex code. Setting lights to color #{color}"
+        set_color m, color
+      end
     end
   end
 
@@ -96,7 +98,7 @@ class Twitch
   def subs(m)
     if m.tags["msg-id"] == "resub" || m.tags["msg-id"] == "sub"
       $lightbot_logger.info "Sub/resub!"
-      if m.tags["msg-param-sub-plan"].to_s == "3000".to_s || m.tags["msg-param-sub-plan"].to_s == "2000".to_s
+      if m.tags["msg-param-sub-plan"].to_i == "3000".to_i || m.tags["msg-param-sub-plan"].to_i == "2000".to_i
         $lightbot_logger.info "Sub is a $24.99 sub! Triggering color loop for 10 seconds!"
         $hue_client.group($config["bot"]["hue_group"]).lights.each do |light|
           light.effect="colorloop"

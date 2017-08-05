@@ -17,7 +17,7 @@ class Twitch
   match /on/, method: :on
   match /colorloop/, method: :colorloop
 
-  def lights(m, color)
+  def lights(m)
     if m.tags["bits"].to_i > 999
       $lightbot_logger.info "More than 0k bits! Triggering color loop for 30 seconds!"
       $hue_client.group($config["bot"]["hue_group"]).lights.each do |light|
@@ -139,6 +139,6 @@ class Twitch
     file.flush
     file.close
 
-    m.reply "@#{m.user}, I've set the hue light color to #{color}"
+    #m.reply "@#{m.user}, I've set the hue light color to #{color}"
   end
 end

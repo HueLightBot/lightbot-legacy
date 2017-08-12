@@ -34,9 +34,12 @@ class Twitch
     if m.tags["bits"].to_i >= $config["bot"]["cheer_floor"].to_i
       $lightbot_logger.info "Cheer is higher than configured cheer floor. Setting color."
       if /#([0-9a-fA-F]{6})/.match(m.message)
-        color = /#([0-9a-fA-F]{6})/.match(m.message)[0]
+        colors = m.message.scan(/#[0-9a-fA-F]{6}/)
         $lightbot_logger.info "Message includes RGB hex code. Setting lights to color #{color}"
-        set_color m, color
+        colors.each do |color|
+          set_color m, color
+          sleep 3
+        end
       end
     end
   end
@@ -112,9 +115,12 @@ class Twitch
       end
 
       if /#([0-9a-fA-F]{6})/.match(m.message)
-        color = /#([0-9a-fA-F]{6})/.match(m.message)[0]
+        colors = m.message.scan(/#[0-9a-fA-F]{6}/)
         $lightbot_logger.info "Resub message includes RGB hex code. Setting lights to color #{color}"
-        set_color m, color
+        colors.each do |color|
+          set_color m, color
+          sleep 3
+        end
       end
     end
   end

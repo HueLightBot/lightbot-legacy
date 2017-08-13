@@ -11,7 +11,7 @@ class Twitch
   listen_to :channel, :method => :lights
 
   #match /#([0-9a-fA-F]{6})/, use_prefix: false, method: :lights
-  match /setlights #([0-9a-fA-F]{6})/, method: :mod_color
+  match /setlights #[0-9a-fA-F]{6}/, method: :mod_color
   match /dim (\d\.\d)/, method: :dim
   match /off/, method: :off
   match /on/, method: :on
@@ -31,17 +31,17 @@ class Twitch
       end
     end
 
-    if m.tags["bits"].to_i >= $config["bot"]["cheer_floor"].to_i
+    #if m.tags["bits"].to_i >= $config["bot"]["cheer_floor"].to_i
       $lightbot_logger.info "Cheer is higher than configured cheer floor. Setting color."
       if /#([0-9a-fA-F]{6})/.match(m.message)
         colors = m.message.scan(/#[0-9a-fA-F]{6}/)
-        $lightbot_logger.info "Message includes RGB hex code. Setting lights to color #{color}"
+        $lightbot_logger.info "Message includes RGB hex code. Setting lights to color #{colors}"
         colors.each do |color|
           set_color m, color
           sleep 3
         end
       end
-    end
+    #end
   end
 
   def dim(m, brightness)
@@ -54,12 +54,15 @@ class Twitch
     end
   end
 
-  def mod_color(m, color)
+  def mod_color(m)
     $lightbot_logger.info "Detected !setlights command!"
     if mod?(m)
-      $lightbot_logger.info "Lights are being set to #{color} by command!"
-      temp_color = "#" + color.to_s
-      set_color m, temp_color
+      colors = m.message.scan(/#[0-9a-fA-F]{6}/)
+      $lightbot_logger.info "Lights are being set to #{colors} by command!"
+      colors.each do |color|
+        set_color m, color
+        sleep 3
+      end
     end
   end
 
@@ -116,7 +119,7 @@ class Twitch
 
       if /#([0-9a-fA-F]{6})/.match(m.message)
         colors = m.message.scan(/#[0-9a-fA-F]{6}/)
-        $lightbot_logger.info "Resub message includes RGB hex code. Setting lights to color #{color}"
+        $lightbot_logger.info "Resub message includes RGB hex code. Setting lights to color #{colors}"
         colors.each do |color|
           set_color m, color
           sleep 3

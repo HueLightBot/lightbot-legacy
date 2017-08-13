@@ -19,19 +19,11 @@ class Twitch
 
   def lights(m)
     if m.tags["bits"].to_i > 999
-      $lightbot_logger.info "More than 0k bits! Triggering color loop for 30 seconds!"
-      $hue_client.group($config["bot"]["hue_group"]).lights.each do |light|
-        light.effect="colorloop"
-      end
-
-      sleep 30
-
-      $hue_client.group($config["bot"]["hue_group"]).lights.each do |light|
-        light.effect="none"
-      end
+      $lightbot_logger.info "More than 0k bits! Triggering alert!"
+      determine_alert "largeCheer"
     end
 
-    #if m.tags["bits"].to_i >= $config["bot"]["cheer_floor"].to_i
+    if m.tags["bits"].to_i >= $config["bot"]["cheer_floor"].to_i
       $lightbot_logger.info "Cheer is higher than configured cheer floor. Setting color."
       if /#([0-9a-fA-F]{6})/.match(m.message)
         colors = m.message.scan(/#[0-9a-fA-F]{6}/)
@@ -41,7 +33,7 @@ class Twitch
           sleep 3
         end
       end
-    #end
+    end
   end
 
   def dim(m, brightness)
@@ -69,15 +61,7 @@ class Twitch
   def colorloop(m)
     $lightbot_logger.info "Detected !colorloop command!"
     if mod?(m)
-      $hue_client.group($config["bot"]["hue_group"]).lights.each do |light|
-        light.effect="colorloop"
-      end
-
-      sleep 30
-
-      $hue_client.group($config["bot"]["hue_group"]).lights.each do |light|
-        light.effect="none"
-      end
+      ColorLoop.new
     end
   end
 
@@ -104,17 +88,15 @@ class Twitch
   def subs(m)
     if m.tags["msg-id"] == "resub" || m.tags["msg-id"] == "sub"
       $lightbot_logger.info "Sub/resub!"
-      if m.tags["msg-param-sub-plan"].to_i == "3000".to_i || m.tags["msg-param-sub-plan"].to_i == "2000".to_i
-        $lightbot_logger.info "Sub is a $24.99 sub! Triggering color loop for 10 seconds!"
-        $hue_client.group($config["bot"]["hue_group"]).lights.each do |light|
-          light.effect="colorloop"
-        end
-
-        sleep 30
-
-        $hue_client.group($config["bot"]["hue_group"]).lights.each do |light|
-          light.effect="none"
-        end
+      case m.tags["msg-param-sub-plan"].to_i
+      when "1000"
+        determine_alert "sub_1000"
+      when "2000"
+        determine_alert "sub_2000"
+      when "3000"
+        determine_alert "sub_3000"
+      when "prime"
+        determine_alert "prime"
       end
 
       if /#([0-9a-fA-F]{6})/.match(m.message)
@@ -127,6 +109,8 @@ class Twitch
       end
     end
   end
+
+  private
 
   def set_color(m, color)
     rgb = Color::RGB.by_hex color
@@ -149,5 +133,29 @@ class Twitch
     file.close
 
     m.reply "@#{m.user}, I've set the hue light color to #{color}"
+  end
+
+  def determine_alert(event)
+    case event
+    when "largeCheer"
+      event_str = $config["bot"]["alerts"]["cheer"]
+    when "prime"
+      event_str = $config["bot"]["alerts"]["prime"]
+    when "sub_1000"
+      event_str = $config["bot"]["alerts"]["sub_1000"]
+    when "sub_2000"
+      event_str = $config["bot"]["alerts"]["sub_2000"]
+    when "sub_3000"
+      event_str = $config["bot"]["alerts"]["sub_3000"]
+    end
+
+    case event_str
+    when "loop"
+      @alert = ColorLoop.new
+    when "blink"
+      @alert = Blink.new
+    else
+      @alert = nil
+    end
   end
 end

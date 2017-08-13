@@ -9,3 +9,9 @@ bot:
   channel: '#your_twitch_username'
   off_floor: 5000
   on_floor: 500
+  alerts:
+    cheer: "loop"
+    prime: "none"
+    sub_1000: "none"
+    sub_2000: "loop"
+    sub_3000: "loop"

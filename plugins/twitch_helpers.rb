@@ -27,6 +27,18 @@ def sub?(m)
   end
 end
 
+def permission?(m, permission_type)
+  if $config["bot"]["permissions"][permission_type].downcase == "mod" && mod?(m)
+    return true
+  elsif $config["bot"]["permissions"][permission_type].downcase == "sub" && sub?(m)
+    return true
+  elsif $config["bot"]["permissions"][permission_type].downcase == "public"
+    return true
+  else
+    return false
+  end
+end
+
 def channel_to_key(channel)
   return channel if channel.is_a?(Symbol)
   channel[/\w+/].to_sym

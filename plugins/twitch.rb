@@ -11,14 +11,14 @@ class Twitch
   listen_to :channel, :method => :lights
 
   #match /#([0-9a-fA-F]{6})/, use_prefix: false, method: :lights
-  match /setlights #[0-9a-fA-F]{6}/, method: :mod_color
+  match /setlights/, method: :set_lights
   match /dim (\d\.\d)/, method: :dim
   match /off/, method: :off
   match /on/, method: :on
   match /colorloop/, method: :colorloop
 
   def lights(m)
-    if m.tags["bits"].to_i > 999
+    if m.tags["bits"].to_i > $config["bot"]["largecheer"].to_i
       $lightbot_logger.info "More than 0k bits! Triggering alert!"
       determine_alert "largeCheer"
     end
@@ -46,9 +46,10 @@ class Twitch
     end
   end
 
-  def mod_color(m)
+  def set_lights(m)
     $lightbot_logger.info "Detected !setlights command!"
-    if mod?(m)
+    puts permission?(m, "setcolor")
+    if permission?(m, "setcolor")
       colors = m.message.scan(/#[0-9a-fA-F]{6}/)
       $lightbot_logger.info "Lights are being set to #{colors} by command!"
       colors.each do |color|

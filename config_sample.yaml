@@ -7,6 +7,7 @@ bot:
   cheer_floor: 200
   hue_group: 4
   channel: '#your_twitch_username'
+  largecheer: 1000
   off_floor: 5000
   on_floor: 500
   alerts:
@@ -15,3 +16,5 @@ bot:
     sub_1000: "none"
     sub_2000: "loop"
     sub_3000: "loop"
+  permissions:
+    setcolor: "mod"

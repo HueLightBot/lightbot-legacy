@@ -149,7 +149,7 @@ class Twitch
       event_str = $config["bot"]["alerts"]["sub_3000"]
     end
 
-    case event_str
+    case event_str.downcase
     when "loop"
       @alert = ColorLoop.new
     when "blink"

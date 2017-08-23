@@ -48,7 +48,6 @@ class Twitch
 
   def set_lights(m)
     $lightbot_logger.info "Detected !setlights command!"
-    puts permission?(m, "setcolor")
     if permission?(m, "setcolor")
       colors = m.message.scan(/#[0-9a-fA-F]{6}/)
       $lightbot_logger.info "Lights are being set to #{colors} by command!"
@@ -61,7 +60,7 @@ class Twitch
 
   def colorloop(m)
     $lightbot_logger.info "Detected !colorloop command!"
-    if mod?(m)
+    if permission?(m, "colorloop")
       ColorLoop.new
     end
   end
@@ -89,7 +88,7 @@ class Twitch
   def subs(m)
     if m.tags["msg-id"] == "resub" || m.tags["msg-id"] == "sub"
       $lightbot_logger.info "Sub/resub!"
-      case m.tags["msg-param-sub-plan"].to_i
+      case m.tags["msg-param-sub-plan"].to_s
       when "1000"
         determine_alert "sub_1000"
       when "2000"

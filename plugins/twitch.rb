@@ -107,6 +107,19 @@ class Twitch
           sleep 3
         end
       end
+
+      if /!on/.match(m.message)
+        case m.tags["msg-param-sub-plan"].to_s
+        when "2000"
+          $hue_client.group($config["bot"]["hue_group"]).lights.each do |light|
+            light.on!
+          end
+        when "3000"
+          $hue_client.group($config["bot"]["hue_group"]).lights.each do |light|
+            light.on!
+          end
+        end
+      end
     end
   end
 
